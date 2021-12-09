@@ -5,32 +5,8 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
 <script src="js/libs/jquery-3.1.1.min.js"></script>
-<script src="js/libs/require.js"></script>
 <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
-	<script>
-		require(["js/game.js","js/utils/text.js"],function(Game, Text){
-			$("#playerNameModal").modal('show');
-			$("#restartGameBtn").click(function() {location.reload();});
-			$("#beginGameBtn").click(function(){
-				createGame($("#playerNameInput").val());
-			});
-			var keys = Object.keys(Text);
-			for(var key in keys) {
-				$("#" + keys[key]).text(Text[keys[key]]);
-			}
-			
-			function createGame(playerName) {
-				var game = new Game(playerName);
-				game.createField("fieldContainer");
-				game.createFieldTiles();
-				game.kickoffs.addKickoffTokens();
-				game.readUserInput();
-				game.database.initializeDatabase().then(function(response) {
-					game.database.getHighScores();
-				});
-			}
-		});
-	</script>
+<script type="module" src="js/main.js"></script>
 </head>
 <body>
 <div id="uiContainer" class="uiContainer">
@@ -136,19 +112,19 @@
 		<table id="scoreBoard" class="roundedPanels">
 		  <tr>
 			<th>
-				<div class="cellStyling scoreLabels" style="width:180px;">
-					<p id="playerNameScoreboardLabel" style="font-size: 22px;letter-spacing: 2px;"></p>
+				<div class="cellStyling scoreLabels" >
+					<p id="playerNameScoreboardLabel" style="font-size: 22px;letter-spacing: 2px;">HOME</p>
 					<div id="playerScoreLabels" class="scoreValues"></div>
 				</div>
 			</th>
 			<th>
-				<div class="cellStyling" style="width:260px;">
+				<div class="cellStyling" >
 					<div id="timeLabel" style="font-size:45px; font-weight:bolder; letter-spacing:4px;"></div>
 				</div>	
 			</th>
 			<th>
-				<div class="cellStyling scoreLabels" style="width:180px;">
-					<p style="font-size: 20px;letter-spacing: 2px;">Computer</p>
+				<div class="cellStyling scoreLabels" >
+					<p style="font-size: 20px;letter-spacing: 2px;">AWAY</p>
 					<div id="computerScoreLabel" class="scoreValues"></div>
 				</div>	
 			</th>
@@ -156,32 +132,32 @@
 		  <tr>
 			<td>
 				<div class="cellStyling scoreLabels">
-					<p>Down</p>
+					<p>DOWN</p>
 					<div id="downLabel" class="scoreValues"></div>
 				</div>
 			</td>
 			<td>
 				<div class="cellStyling scoreLabels">
-					<p>To Go</p>
+					<p>TO GO</p>
 					<div id="distanceLabel" class="scoreValues"></div>
 				</div>	
 			</td>
 			<td>
 				<div class="cellStyling scoreLabels">
-					<p>Ball On</p>
+					<p>BALL ON</p>
 					<div id="yardLineLabel" class="scoreValues"></div>
 				</div>	
 			</td>
 		  </tr>
 		</table>
-		<div id="fieldContainer" style="margin:10px"></div>
-		<div id="currentPlayDiv" style="display:flex; font-size:25px; font-weight:bolder; margin-top:20px; margin-left:10px;">
-			<div>Current Play:&nbsp</div>
-			<div id="currentPlay"></div>
-		</div>
-		<div id="playResultDiv" style="display:flex; font-size:25px; font-weight:bolder; margin-top:20px; margin-left:10px;">
-			<div>Play Result:&nbsp</div>
-			<div id="playResult"></div>
+		<div id="fieldContainer"></div>
+		<div class='commentary-container'>
+			<div id="currentPlayDiv" class='commentary-text'>
+				<div>Current Play:&nbsp&nbsp<p id="currentPlay" style="display:inline-block;"></p></div>
+			</div>
+			<div id="playResultDiv" class='commentary-text'>
+				<div>Play Result:&nbsp&nbsp<p id="playResult" style="display:inline-block;"></p></div>
+			</div>
 		</div>
 	</div>
 	<div id="rightColumn" class="column">
@@ -240,7 +216,7 @@
 				</table>				
 			 </div>
 			 <div class = "modal-footer">
-				<h5 style="left:10px; position:absolute;">Click on the map to enable keyboard input</h5>
+				<h5 style="left:10px; position:absolute;"></h5>
 				<button type = "button" class = "btn btn-default" data-dismiss = "modal">
 				   Close
 				</button>
@@ -248,14 +224,14 @@
 		  </div>
 	   </div>
 	</div>
-	<div class = "modal fade" id = "highScoresModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+	<div class = "modal fade" id = "highScoresModal" tabindex = "-1" role = "dialog" aria-labelledby = "highScoreTitle" aria-hidden = "true">
 	   <div class = "modal-dialog">
 		  <div class = "modal-content">
 			 <div class = "modal-header">
 				<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
 					  &times;
 				</button>
-				<h4 class = "modal-title" id = "myModalLabel">All Time Records</h4>
+				<h4 class = "modal-title" id = "highScoreTitle"></h4>
 			 </div>
 			 <div class = "modal-body">
 				<table style="width:100%">
@@ -317,13 +293,13 @@
 							<td id="r8date"></td>
 						</tr>
 						<tr>
-							<td id="r9name">Highest Yards Per Rush</td>
+							<td id="r9name">Highest Yards Per Rush (Min 4 Attempts)</td>
 							<td id="r9score"></td>
 							<td id="r9player"></td>
 							<td id="r9date"></td>
 						</tr>
 						<tr>
-							<td id="r10name">Highest Yards Per Pass</td>
+							<td id="r10name">Highest Yards Per Pass (Min 7 Attempts)</td>
 							<td id="r10score"></td>
 							<td id="r10player"></td>
 							<td id="r10date"></td>
@@ -347,7 +323,7 @@
 							<td id="r22date"></td>
 						</tr>
 						<tr>
-							<td id="r11name">Highest Completion Percentage</td>
+							<td id="r11name">Highest Completion Percentage (Min 10 Attempts)</td>
 							<td id="r11score"></td>
 							<td id="r11player"></td>
 							<td id="r11date"></td>
@@ -365,7 +341,7 @@
 							<td id="r13date"></td> 
 						</tr>
 						<tr>
-							<td id="r14name">Fewest Interceptions Thrown</td>
+							<td id="r14name">Fewest Interceptions Thrown (Min 7 Attempts)</td>
 							<td id="r14score"></td>
 							<td id="r14player"></td>
 							<td id="r14date"></td>
@@ -395,7 +371,7 @@
 							<td id="r23date"></td>
 						</tr>
 						<tr>
-							<td id="r24name">Highest Yards Per Return</td>
+							<td id="r24name">Highest Yards Per Return (Min 3 Attempts)</td>
 							<td id="r24score"></td>
 							<td id="r24player"></td>
 							<td id="r24date"></td>
@@ -428,7 +404,7 @@
 				</table>
 			 </div>
 			 <div class = "modal-footer">
-				<h5 style="left:10px; position:absolute;">Click on the map to enable keyboard input</h5>
+				<h5 style="left:10px; position:absolute;"></h5>
 				<button type = "button" class = "btn btn-default" data-dismiss = "modal">
 				   Close
 				</button>
@@ -474,7 +450,7 @@
 				</div>
 			 </div>
 			 <div class = "modal-footer">
-				<h5 style="left:10px; position:absolute;">Click on the map to enable keyboard input</h5>
+				<h5 style="left:10px; position:absolute;"></h5>
 				<button type = "button" class = "btn btn-default" data-dismiss = "modal">
 				   Close
 				</button>
@@ -486,11 +462,6 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" 
-					   data-dismiss="modal">
-						   <span aria-hidden="true">&times;</span>
-						   <span class="sr-only">Close</span>
-					</button>
 					<h4 class="modal-title" id="myModalLabel">
 						Welcome to Pro Football 2.0!
 					</h4>
@@ -503,11 +474,32 @@
 						  <input type="text" class="form-control"
 							  id="playerNameInput" placeholder="Player Name"/>
 					  </div>
+					  <div class="form-group">
+						  <label>Select a Game Mode</label>
+						  <div class="radio-button-group">
+							<div class="radio-button">
+								<input type="radio" id="option1" name="gameMode" value="3x10" checked>
+								<label class="radio-button-label" for="option1">3 X 10</label>
+							</div>
+							<div class="radio-button">
+								<input type="radio" id="option2" name="gameMode" value="5x10" >
+								<label class="radio-button-label" for="option2">5 X 10</label>
+							</div>
+							<div class="radio-button">
+								<input type="radio" id="option3" name="gameMode" value="3x13" >
+								<label class="radio-button-label" for="option3">3 X 13</label>
+							</div>
+							<div class="radio-button">
+								<input type="radio" id="option4" name="gameMode" value="5x13" >
+								<label class="radio-button-label" for="option4">5 X 13</label>
+							</div>
+						  </div>
+					  </div>
 					</form>
 				</div>
 				
 				<div class="modal-footer">
-					<button type="button" id="beginGameBtn" data-dismiss="modal" class="btn btn-primary">
+					<button type="button" id="beginGameBtn" data-dismiss="modal" class="btn btn-primary" disabled>
 						Kickoff!
 					</button>
 				</div>

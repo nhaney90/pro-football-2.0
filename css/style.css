@@ -1,19 +1,31 @@
 body {
-	background-color: #ddd;
+	background-color: darkslategray;
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	height: 100%;
+	width: 100%;
+}
+#centerColumn {
+	max-width: 693px;
+	width: 100%;
+}
+#field {
+	border: 3px solid white;
+}
+#fieldContainer {
+	margin: 0 auto;
+	margin-top: 10px;
 }
 #scoreBoard {
-	margin-left: 33px !important;
-	font-family: arial, sans-serif;
+	font-family: "Trebuchet MS";
 	border-collapse: collapse;
-	width: 620px;
 	color: white;
 	background-color: black;
 	margin:10px;
 	font-weight: bold;
+	border: 3px solid white;
 }
-#showHighScoreBtn, #restartGameBtn{
-	position: absolute;
-	width: 280px;
+#scoreBoard th {
+	width: 33.333333%
 }
 #tileContainer {
 	height: 100%;
@@ -22,7 +34,9 @@ body {
 	margin: 0px;
 }
 .ball {
-	background-color: brown !important;
+	/*background-color: #691B22 !important;*/
+	background-image:url("../images/football.svg");
+	background-size:100% 100%;
 	z-index: 100;
 }
 .blink {
@@ -34,27 +48,62 @@ body {
 .boxscoreHeadings {
 	text-indent:1em;
 }
+.btn {
+	border-radius:0;
+}
 .cellStyling {
 	text-align: center !important;
 }
 .column {
 	display:flex;
 	flex-direction:column;
-	background-color: #ddd;
+}
+.commentary-container {
+	background-color: black;
+	border: 3px solid white;
+	font-family: "Trebuchet MS";
+	height: 129px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+}
+.commentary-text {
+	color: white !important;
+	font-size: 2.2rem;
+	font-weight: bolder;
+	line-height: 2.2rem;
+	margin-left: 10px;
+	margin-top: 10px;
 }
 .defender {
-	background-color: blue;
 	z-index: 100;
+	background-image:url("../images/defender.png");
+	background-size:100% 100%;
+}
+.defender .token-label {
+	color: #ecedf3;
+	margin-right: 1.5rem;
+	margin-top: 1.5rem;
+	text-align: center;
 }
 .headingStyle {
 	font-weight: bolder;
 }
 .helpBtns{
-	margin: 10px;
+	border-radius: 0px;
+	margin-top: 10px;
+	width: 300px;
 	font-size: 20px;
 }
 .player {
-	background-color: black;
+	background-image:url("../images/player.png");
+	background-size:100% 100%;
+}
+.player .token-label {
+	text-align: center;
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    color: #f9f9f9;
 }
 .playByPlayHeading {
 	font-weight: bold;
@@ -67,11 +116,19 @@ body {
 	padding-bottom: 5px;
 	font-size: 12px;
 }
-.roundedPanels {
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 7px; 
-	-webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
-	-moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);		
+.playResultDiv {
+	margin-top: 5px !important;
+}
+.radio-button-group {
+	display: flex;
+}
+.radio-button {
+	text-align: center;
+	width: 25%;
+}
+.radio-button-label {
+	margin-left: 5px;
+	font-size: 1.7rem;
 }
 .scoreValues {
 	font-size: 30px;
@@ -80,9 +137,10 @@ body {
 }
 .sidePanels {
 	width: 300px;
-	background-color: blue;
+	background-color: #04819B;
 	height: 400px;
-	margin-top: 60px;
+	margin-top: 10px;
+	border-radius:0;
 }
 .sidePanelContainer {
 	background-color: white;
@@ -103,10 +161,14 @@ body {
 .tile{
 	height: 67px;
 	width: 67px;
-	background-color: green;
+	background-color: #677D32;
 	color: white;
 	position: relative;
-	border: 1px solid #dddddd;
+	border-left: 1px solid white;
+	border-top: 0.5px solid white;
+}
+.tile.los {
+	border-left: 3px solid white;
 }
 .token {
 	height: 100%;
@@ -118,12 +180,28 @@ body {
 }
 .uiContainer {
 	display:flex;
+	justify-content: center;
 	margin:20px;
-	background-color: #ddd;
 }
 .wr {
-	background-color: red;
+	background-image:url("../images/player.png");
+	background-size:100% 100%;
 }
+.wr .token-label {
+	text-align: center;
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    color: #f9f9f9;
+}
+
+.wr-route {
+	background-color: #ffff00bf;
+}
+.wr2-route {
+	background-color: orange;
+}
+
 @keyframes blink {
 from { opacity:1; }
 to { opacity:0; }
+}
