@@ -122,9 +122,9 @@ export class Stats {
 			//Make sure the player actually tried to win the game and not just throw interceptions and incomplete passes
 			this.highScores.passAttempts = this.boxScore.passing > 100 ? this.boxScore.compAtt.atts : null;
 			//Minimum of 10 attempts
-			this.highScores.completionPercentage = this.boxScore.compAtt.atts >= 10 ? (Math.round((this.boxScore.compAtt.comp / this.boxScore.compAtt.atts) * 10) / 10) * 100 : null;
+			this.highScores.completionPercentage = this.boxScore.compAtt.atts >= 10 ? ((this.boxScore.compAtt.comp / this.boxScore.compAtt.atts) * 100).toFixed(2) : null;
 			//Minimum of 7 attempts
-			this.highScores.yardsPerPass = this.boxScore.compAtt.atts >= 7 ? Math.round((this.boxScore.passing / this.boxScore.compAtt.atts) * 10) / 10 : null;
+			this.highScores.yardsPerPass = this.boxScore.compAtt.atts >= 7 ? (this.boxScore.passing / this.boxScore.compAtt.atts).toFixed(2) : null;
 			this.highScores.passingTDs = this.boxScore.passTds;
 			this.highScores.rushingTDs = this.boxScore.rushTds;
 			//Minimum of 7 attempts
@@ -134,7 +134,7 @@ export class Stats {
 			//Make sure they actually gained 20 rushing yards or more and were not just taking sacks
 			this.highScores.rushAttempts = this.boxScore.rushing > 20 ? this.boxScore.rushAtts : null;
 			//Minimum of 4 attempts
-			this.highScores.yardsPerRush = this.boxScore.rushAtts >= 4 ? Math.round((this.boxScore.rushing / this.boxScore.rushAtts) * 10) / 10 : null;
+			this.highScores.yardsPerRush = this.boxScore.rushAtts >= 4 ? (this.boxScore.rushing / this.boxScore.rushAtts).toFixed(2) : null;
 			this.highScores.firstDowns = this.boxScore.firstDowns;
 			this.highScores.fourthDowns = this.boxScore.fourthDowns.convert;
 			this.highScores.longestRun = this.boxScore.longestRun;
@@ -149,7 +149,7 @@ export class Stats {
 			this.highScores.returnYards = this.boxScore.returnYards;
 			this.highScores.longestReturn = this.boxScore.longestReturn;
 			//Minimum of 3 returns
-			this.highScores.yardsPerReturn = this.boxScore.returns >= 3 ? Math.round((this.boxScore.returnYards / this.boxScore.returns) * 10) / 10 : null;
+			this.highScores.yardsPerReturn = this.boxScore.returns >= 3 ? (this.boxScore.returnYards / this.boxScore.returns).toFixed(2) : null;
 			this.highScores.returnTDs  = this.boxScore.returnTds;
 		}
 	}
@@ -159,18 +159,18 @@ export class Stats {
 		$("#totalYardsCell").text(this.boxScore.passing + this.boxScore.rushing);
 		$("#passingYardsCell").text(this.boxScore.passing);
 		$("#compAttsCell").text(this.boxScore.compAtt.comp + " / " + this.boxScore.compAtt.atts);
-		$("#yppCell").text(this.boxScore.compAtt.atts > 0 ? Math.round((this.boxScore.passing / this.boxScore.compAtt.atts) * 10) / 10 : 0);
+		$("#yppCell").text(this.boxScore.compAtt.atts > 0 ? (this.boxScore.passing / this.boxScore.compAtt.atts).toFixed(2) : 0);
 		$("#passingTdsCell").text(this.boxScore.passTds);
 		$("#interceptionsCell").text(this.boxScore.interceptions);
 		$("#sacksCell").text(this.boxScore.sacks);
 		$("#rushingYardsCell").text(this.boxScore.rushing);
 		$("#rushingAttsCell").text(this.boxScore.rushAtts);
-		$("#yprCell").text(this.boxScore.rushAtts > 0 ? Math.round((this.boxScore.rushing / this.boxScore.rushAtts) * 10) / 10 : 0);
+		$("#yprCell").text(this.boxScore.rushAtts > 0 ? (this.boxScore.rushing / this.boxScore.rushAtts).toFixed(2) : 0);
 		$("#rushingTdsCell").text(this.boxScore.rushTds);
 		$("#kickReturnYardsCell").text(this.boxScore.returnYards);
 		$("#kickReturnsCell").text(this.boxScore.returns);
 		$("#longReturnCell").text(this.boxScore.longestReturn);
-		$("#averageReturnCell").text(this.boxScore.returns > 0 ? Math.round((this.boxScore.returnYards / this.boxScore.returns) * 10) / 10 : 0);
+		$("#averageReturnCell").text(this.boxScore.returns > 0 ? (this.boxScore.returnYards / this.boxScore.returns).toFixed(2) : 0);
 		$("#kickReturnTdsCell").text(this.boxScore.returnTds);
 		$("#firstDownsCell").text(this.boxScore.firstDowns);
 		$("#byRushingCell").text(this.boxScore.byRushing);
